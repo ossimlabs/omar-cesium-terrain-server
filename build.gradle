@@ -1,5 +1,5 @@
 buildscript {
-    ext {    
+    ext {
         // must be a closure.  If set to =false then it thinks the proeprty does not exist
         hasJar={false}
         dockerStatementsOverride = {[
@@ -11,9 +11,11 @@ buildscript {
     }
 
     repositories {
-        jcenter()
-        mavenLocal()
         maven { url "${ossimMavenProxy}" }
+        if( Boolean.parseBoolean( System.env.WWW_CONNECTED ) ) {
+            jcenter()
+            mavenLocal()
+        }
     }
     dependencies {
         classpath "com.bmuschko:gradle-docker-plugin:${gradleDockerPluginV}"
